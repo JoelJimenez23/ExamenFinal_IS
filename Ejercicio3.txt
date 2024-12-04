@@ -1,0 +1,49 @@
+
+PREGUNTA 3: Cambios en el software, casos de prueba y analisis de riesgo
+
+CAMBIOS EN EL CODIGO:
+1. Clase "Usuario":
+   - Agregar un atributo "max_contactos" para definir el limite maximo de contactos.
+   - Modificar el método que agrega contactos para validar el limite.
+
+2. Nuevo método: Eliminar contactos:
+   - Crear un metodo en la clase "Usuario" para eliminar contactos especificos.
+
+3. Nuevo metodo: Eliminar usuarios:
+   - Crear un metodo en la base de datos para eliminar un usuario y transferir sus mensajes a un registro permanente o archivado.
+
+4. Asegurar persistencia de mensajes:
+   - Los mensajes de un usuario eliminado deben mantenerse en una lista separada o en la misma lista de mensajes del receptor.
+
+
+CAMBIOS EN LOS ENDPOINTS:
+1. Endpoint para eliminar contactos:
+   - Crear un nuevo endpoint para manejar la eliminacion de contactos:
+     DELETE /mensajeria/contactos/{alias}
+
+2. Endpoint para eliminar usuarios:
+   - Crear un nuevo endpoint para manejar la eliminacion de usuarios:
+     DELETE /mensajeria/usuarios/{alias}
+
+
+NUEVOS CASOS DE PRUEBA:
+1. Exito:
+   - Intentar agregar contactos hasta alcanzar el limite maximo.
+   - Eliminar un contacto existente y verificar que ya no aparece en la lista.
+   - Eliminar un usuario y verificar que sus mensajes enviados permanecen.
+
+2. Error:
+   - Intentar agregar un contacto cuando ya se alcanzo el límite maximo.
+   - Eliminar un contacto que no existe.
+   - Eliminar un usuario que no existe.
+
+ANALISIS DE RIESGO:
+1. Impacto:
+   - Impacto bajo si se escriben pruebas adecuadas, ya que:
+     - La validacion del limite de contactos es independiente de las funcionalidades actuales.
+     - La eliminacion de contactos y usuarios se puede implementar sin afectar los metodos existentes.
+
+2. Mitigacion:
+   - Añadir pruebas unitarias específicas para las nuevas funcionalidades.
+   - Ejecutar las pruebas actuales para confirmar que no hay regresiones.
+
