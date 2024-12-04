@@ -5,8 +5,7 @@ How to Run
 python3 -m venv
 source venv/bin/activate
 
-pip install flask
-pip install coverage
+pip install flask coverage
 
 python app.py
 python3 -m coverage run -m unittest test_app.py
