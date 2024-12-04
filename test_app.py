@@ -1,4 +1,5 @@
 import unittest
+import json  # Importar json para manejar respuestas JSON
 from app import app
 
 class TestMensajeria(unittest.TestCase):
@@ -18,15 +19,19 @@ class TestMensajeria(unittest.TestCase):
         self.assertIn("Contacto agregado exitosamente", response.get_data(as_text=True))
 
     def test_enviar_mensaje_contacto_invalido(self):
-        response = self.app.post("/mensajeria/enviar", json={"usuario": "cpaz", "contacto": "desconocido", "mensaje": "Hola"})
+        response = self.app.post(
+            "/mensajeria/enviar", 
+            json={"usuario": "cpaz", "contacto": "desconocido", "mensaje": "Hola"}
+        )
         self.assertEqual(response.status_code, 400)
-        self.assertIn("El contacto no esta en la lista", response.get_data(as_text=True))
+        response_data = json.loads(response.get_data(as_text=True))  # Convertir respuesta a diccionario
+        self.assertEqual(response_data.get("error"), "El contacto no está en la lista")  # Comparar directamente
 
     def test_mensajes_recibidos_usuario_no_encontrado(self):
         response = self.app.get("/mensajeria/recibidos?mialias=inexistente")
         self.assertEqual(response.status_code, 404)
-        self.assertIn("Usuario no encontrado", response.get_data(as_text=True))
+        response_data = json.loads(response.get_data(as_text=True))  # Convertir respuesta a diccionario
+        self.assertEqual(response_data.get("error"), "Usuario no encontrado")  # Comparar directamente
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     unittest.main()
-
