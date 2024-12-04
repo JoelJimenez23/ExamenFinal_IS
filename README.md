@@ -1,6 +1,6 @@
 # ExamenFinal_IS
 
-Run
+How to Run
 
 python3 -m venv
 source venv/bin/activate
